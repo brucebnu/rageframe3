@@ -25,7 +25,7 @@ AddonHelper::file('img/test.jpg');
 
 ```
 // 获取
-Yii::$app->services->config->merchantConfigAll();
+AddonHelper::getConfig();
 
 // 设置
 AddonHelper::setConfig($config)

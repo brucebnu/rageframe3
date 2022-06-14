@@ -23,7 +23,7 @@ class SettingController extends BaseController
         $model = new SettingForm();
         $model->attributes = $this->getConfig();
         if ($model->load($request->post()) && $model->validate()) {
-            Yii::$app->services->addonsConfig->setConfig(ArrayHelper::toArray($model));
+            $this->setConfig(ArrayHelper::toArray($model));
             return $this->message('修改成功', $this->redirect(['display']));
         }
 

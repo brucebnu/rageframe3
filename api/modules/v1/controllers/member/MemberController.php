@@ -8,6 +8,8 @@ use api\controllers\OnAuthController;
 use common\models\member\Member;
 use common\forms\MemberForm;
 use common\helpers\ResultHelper;
+use common\enums\StatusEnum;
+use common\helpers\ArrayHelper;
 
 /**
  * 会员接口
@@ -52,14 +54,19 @@ class MemberController extends OnAuthController
     public function actionUpdate($id)
     {
         $data = Yii::$app->request->post();
-        unset(
-            $data['password_hash'],
-            $data['mobile'],
-            $data['username'],
-            $data['auth_key'],
-            $data['password_reset_token'],
-            $data['promo_code']
-        );
+        $data = ArrayHelper::filter($data, [
+            'nickname',
+            'head_portrait',
+            'realname',
+            'birthday',
+            'province_id',
+            'city_id',
+            'area_id',
+            'address',
+            'qq',
+            'email',
+            'gender',
+        ]);
 
         $model = $this->findModel($id);
         $model->attributes = $data;
@@ -68,6 +75,24 @@ class MemberController extends OnAuthController
         }
 
         return 'ok';
+    }
+
+    /**
+     * @param $id
+     * @return \yii\db\ActiveRecord
+     * @throws NotFoundHttpException
+     */
+    protected function findModel($id)
+    {
+        /* @var $model \yii\db\ActiveRecord */
+        if (empty($id) || !($model = $this->modelClass::find()->where([
+                'id' => Yii::$app->user->identity->member_id,
+                'status' => StatusEnum::ENABLED,
+            ])->andFilterWhere(['merchant_id' => $this->getMerchantId()])->one())) {
+            throw new NotFoundHttpException('请求的数据不存在');
+        }
+
+        return $model;
     }
 
     /**

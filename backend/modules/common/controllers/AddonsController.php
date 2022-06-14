@@ -231,11 +231,13 @@ class AddonsController extends BaseController
                         throw new UnprocessableEntityHttpException($e->getMessage());
                     }
 
+                    ob_clean();
                     return ResultHelper::json(422, $e->getMessage());
                 }
             }
         }
 
+        ob_clean();
         return ResultHelper::json(200, '升级数据库成功');
     }
 
@@ -314,7 +316,7 @@ class AddonsController extends BaseController
             }
 
             // 参数设置支持
-            $files[] = "{$addonDir}common/models/SettingForm.php";
+            $files[] = "{$addonDir}common/forms/SettingForm.php";
             $files[] = "{$addonDir}merchant/controllers/SettingController.php";
             $files[] = "{$addonDir}merchant/views/setting/";
             // 服务层支持

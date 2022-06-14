@@ -39,7 +39,7 @@ class FansController extends BaseController
             'model' => $this->modelClass,
             'scenario' => 'default',
             'partialMatchAttributes' => ['nickname'], // 模糊查询
-            'relations' => ['tags' => ['tag_id']], // 关联 member 表的 nickname 字段
+            'relations' => ['tags' => ['tag_id']], // 关联 tags 表的 tag_id 字段
             'defaultOrder' => [
                 'follow_time' => SORT_DESC,
                 'id' => SORT_DESC,
@@ -55,11 +55,12 @@ class FansController extends BaseController
             ->with(['auth']);
 
         $tags = Yii::$app->wechatService->fansTags->getList();
+        $params = Yii::$app->request->get('SearchModel');
 
         return $this->render($this->action->id, [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
-            'tagId' => $tagId,
+            'tagId' => $params['tags.tag_id'] ?? 0,
             'fansCount' => Yii::$app->wechatService->fans->findFollowCount(),
             'fansTags' => $tags,
             'allTag' => ArrayHelper::map($tags, 'id', 'name'),

@@ -23,7 +23,7 @@ class AddonConfig extends BaseAddonConfig
         'brief_introduction' => '微信公众号基础功能管理',
         'description' => '',
         'author' => '简言',
-        'version' => '1.0.0',
+        'version' => '1.0.1',
     ];
 
     /**
@@ -88,7 +88,7 @@ class AddonConfig extends BaseAddonConfig
      *      'activity'  => "营销及活动",
      *      'services'  => "常用服务及工具",
      *      'biz'       => "行业解决方案",
-     *      'h5game'    => "H5游戏",
+     *      'h5game'    => "小游戏",
      *      'other'     => "其他",
      * ]
      */
